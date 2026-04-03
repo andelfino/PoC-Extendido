@@ -18,3 +18,9 @@ app:
     allowed-origin: ${APP_CORS_ALLOWED_ORIGIN:http://localhost:5173}
   mercadopago:
     access-token: ${APP_MERCADOPAGO_ACCESS_TOKEN}
+  paypal:
+    client-id: ${APP_PAYPAL_CLIENT_ID:}
+    client-secret: ${APP_PAYPAL_CLIENT_SECRET:}
+    base-url: ${APP_PAYPAL_BASE_URL:https://api-m.sandbox.paypal.com}
+  conversion:
+    uyu-to-usd-rate: ${APP_UYU_TO_USD_RATE:40}

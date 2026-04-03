@@ -19,11 +19,19 @@ antes de arrancar la aplicación.
 | `SPRING_DATASOURCE_PASSWORD` | Contraseña de PostgreSQL | `tu_contraseña` |
 | `APP_CORS_ALLOWED_ORIGIN` | Origen del frontend que puede llamar al backend | `http://localhost:5173` |
 | `APP_MERCADOPAGO_ACCESS_TOKEN` | Tu Access Token de **prueba** de Mercado Pago | `TEST-...` |
+| `APP_PAYPAL_CLIENT_ID` | Client ID de tu app PayPal sandbox | `AaBb...XxYy` |
+| `APP_PAYPAL_CLIENT_SECRET` | Client Secret de tu app PayPal sandbox | `EeFF...ZzAa` |
+| `APP_PAYPAL_BASE_URL` | Base URL de la API PayPal (default: sandbox) | `https://api-m.sandbox.paypal.com` |
+| `APP_UYU_TO_USD_RATE` | Tasa de conversión UYU→USD (default: 40) | `40` |
 
 > **SPRING_DATASOURCE_URL** y **SPRING_DATASOURCE_USERNAME** tienen valores por defecto
 > (`jdbc:postgresql://localhost:5432/contenedor_1` y `postgres`).
 > **SPRING_DATASOURCE_PASSWORD** y **APP_MERCADOPAGO_ACCESS_TOKEN** no tienen default;
 > si no se definen, el backend falla al intentar usarlos.
+>
+> **APP_PAYPAL_CLIENT_ID**, **APP_PAYPAL_CLIENT_SECRET** y **APP_UYU_TO_USD_RATE** son
+> opcionales para arrancar. Si las credenciales PayPal están vacías, el endpoint devuelve
+> un error descriptivo y el frontend muestra "PayPal no está configurado".
 
 ### Cómo obtener tu Access Token de prueba de Mercado Pago
 
@@ -31,6 +39,29 @@ antes de arrancar la aplicación.
 2. Seleccioná tu aplicación (o creá una nueva).
 3. En "Credenciales" → elegí **Prueba**.
 4. Copiá el **Access token** que empieza con `APP_USR-...` y pegalo en `APP_MERCADOPAGO_ACCESS_TOKEN`.
+
+---
+
+### Cómo configurar PayPal Sandbox
+
+1. Entrá a [https://developer.paypal.com](https://developer.paypal.com) con tu cuenta PayPal.
+2. Ir a **Apps & Credentials** → pestaña **Sandbox**.
+3. Hacé clic en **Create App**, poné un nombre (ej. `sabore-sandbox`) y seleccioná **Merchant**.
+4. En la pantalla de la app vas a ver el **Client ID** y el **Secret** (click en "Show").
+5. Copiá ambos valores y configurá las variables de entorno:
+   - `APP_PAYPAL_CLIENT_ID` = Client ID copiado
+   - `APP_PAYPAL_CLIENT_SECRET` = Secret copiado
+   - `VITE_PAYPAL_CLIENT_ID` = el mismo Client ID (también en `.env.local` del frontend)
+
+#### Cuentas de prueba (buyer / seller)
+
+PayPal crea automáticamente dos cuentas sandbox al crear tu Developer Account:
+- Una cuenta **business** (seller) — la usás como merchant.
+- Una cuenta **personal** (buyer) — la usás para simular pagos.
+
+Para verlas: **Testing** → **Sandbox accounts** en el panel de developer.paypal.com.
+Desde ahí podés obtener la contraseña de la cuenta buyer para hacer pagos de prueba.
+También podés agregar una **tarjeta de crédito de prueba** desde la configuración de la cuenta buyer.
 
 ---
 
